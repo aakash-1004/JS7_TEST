@@ -1,0 +1,4 @@
+openssl req -new -sha512 -nodes \
+    -key ${server_name}.key \
+    -out ${server_name}.csr \
+    -subj "/C=IN/ST=MP/L=INDORE/O=Zehntech/OU=SOS/CN=${server_name}"
