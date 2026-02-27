@@ -1,0 +1,78 @@
+{
+  "TYPE" : "Workflow",
+  "version" : "1.8.3",
+  "timeZone" : "Etc/UTC",
+  "title" : "Parallel execution of jobs in dynamic branches",
+  "orderPreparation" : {
+    "parameters" : {
+      "countries" : {
+        "type" : "List",
+        "listParameters" : {
+          "countryCode" : {
+            "type" : "String"
+          }
+        }
+      }
+    },
+    "allowUndeclared" : false
+  },
+  "jobResourceNames" : [ "Default" ],
+  "instructions" : [ {
+    "TYPE" : "ForkList",
+    "children" : "countries",
+    "childToId" : "countryCode",
+    "subagentIdVariable" : "js7ForkListSubagentId",
+    "workflow" : {
+      "instructions" : [ {
+        "TYPE" : "Execute.Named",
+        "jobName" : "job1",
+        "label" : "job1"
+      }, {
+        "TYPE" : "Execute.Named",
+        "jobName" : "job2",
+        "label" : "job2"
+      } ]
+    },
+    "joinIfFailed" : false
+  } ],
+  "jobs" : {
+    "job1" : {
+      "agentName" : "primaryAgent",
+      "withSubagentClusterIdExpr" : false,
+      "executable" : {
+        "TYPE" : "ShellScriptExecutable",
+        "script" : "echo \"using workflow: $JS7_WORKFLOW_NAME\"\necho \"running job: $JS7_JOB_NAME\"\n\necho \"job running for country code: $COUNTRY_CODE\"\n\nsleep 5",
+        "env" : {
+          "COUNTRY_CODE" : "$countryCode"
+        },
+        "v1Compatible" : false
+      },
+      "skipIfNoAdmissionForOrderDay" : false,
+      "killAtEndOfAdmissionPeriod" : false,
+      "parallelism" : 100,
+      "graceTimeout" : 15,
+      "failOnErrWritten" : false,
+      "warnOnErrWritten" : false,
+      "isNotRestartable" : false
+    },
+    "job2" : {
+      "agentName" : "primaryAgent",
+      "withSubagentClusterIdExpr" : false,
+      "executable" : {
+        "TYPE" : "ShellScriptExecutable",
+        "script" : "echo \"using workflow: $JS7_WORKFLOW_NAME\"\necho \"running job: $JS7_JOB_NAME\"\n\necho \"job running for country code: $COUNTRY_CODE\"\n\nsleep 5",
+        "env" : {
+          "COUNTRY_CODE" : "$countryCode"
+        },
+        "v1Compatible" : false
+      },
+      "skipIfNoAdmissionForOrderDay" : false,
+      "killAtEndOfAdmissionPeriod" : false,
+      "parallelism" : 100,
+      "graceTimeout" : 15,
+      "failOnErrWritten" : false,
+      "warnOnErrWritten" : false,
+      "isNotRestartable" : false
+    }
+  }
+}

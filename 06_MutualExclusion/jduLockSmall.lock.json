@@ -1,0 +1,6 @@
+{
+  "TYPE" : "Lock",
+  "version" : "1.8.3",
+  "limit" : 2,
+  "title" : "Lock for small capacity"
+}

@@ -1,0 +1,30 @@
+{
+  "TYPE" : "Workflow",
+  "version" : "1.8.3",
+  "timeZone" : "Etc/UTC",
+  "jobResourceNames" : [ "Default" ],
+  "instructions" : [ {
+    "TYPE" : "Execute.Named",
+    "jobName" : "job1",
+    "label" : "job1"
+  } ],
+  "jobs" : {
+    "job1" : {
+      "agentName" : "primaryAgent",
+      "withSubagentClusterIdExpr" : false,
+      "executable" : {
+        "TYPE" : "ShellScriptExecutable",
+        "script" : "echo \"using workflow: $JS7_WORKFLOW_NAME\"\necho \"running job: $JS7_JOB_NAME\"\n\nsleep 30",
+        "v1Compatible" : false
+      },
+      "skipIfNoAdmissionForOrderDay" : false,
+      "killAtEndOfAdmissionPeriod" : false,
+      "parallelism" : 1,
+      "graceTimeout" : 15,
+      "failOnErrWritten" : false,
+      "warnOnErrWritten" : false,
+      "warnIfLonger" : "3",
+      "isNotRestartable" : false
+    }
+  }
+}

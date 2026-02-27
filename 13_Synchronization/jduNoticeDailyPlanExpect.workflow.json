@@ -1,0 +1,34 @@
+{
+  "TYPE" : "Workflow",
+  "version" : "1.8.3",
+  "timeZone" : "Etc/UTC",
+  "title" : "Expect notice from jdNoticeDailyPlan notice board",
+  "jobResourceNames" : [ "Default" ],
+  "instructions" : [ {
+    "TYPE" : "ExpectNotices",
+    "noticeBoardNames" : "'jduNoticeDailyPlan'",
+    "whenNotAnnounced" : "Wait"
+  }, {
+    "TYPE" : "Execute.Named",
+    "jobName" : "job1",
+    "label" : "job1"
+  } ],
+  "jobs" : {
+    "job1" : {
+      "agentName" : "primaryAgent",
+      "withSubagentClusterIdExpr" : false,
+      "executable" : {
+        "TYPE" : "ShellScriptExecutable",
+        "script" : "echo \"using workflow: $JS7_WORKFLOW_NAME\"\necho \"running job: $JS7_JOB_NAME\"\n\nsleep 5",
+        "v1Compatible" : false
+      },
+      "skipIfNoAdmissionForOrderDay" : false,
+      "killAtEndOfAdmissionPeriod" : false,
+      "parallelism" : 1,
+      "graceTimeout" : 15,
+      "failOnErrWritten" : false,
+      "warnOnErrWritten" : false,
+      "isNotRestartable" : false
+    }
+  }
+}
